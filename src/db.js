@@ -1,7 +1,6 @@
-import { Pool } from 'pg';
+import pg from 'pg';
 
-
-export const pool = new Pool({
+export const pool = new pg.Pool({
     user: 'postgres',
     password: 'password',
     host: 'localhost',

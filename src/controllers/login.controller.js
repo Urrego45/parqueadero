@@ -9,28 +9,32 @@ import { pool } from '../db.js';
 export const registerUser = async (req, res) => {
   const { nombre_completo, telefono, cedula, rol, correo, contrasenia } = req.body
 
-
   try {
-
-    const [findUser] = await pool.query(
-      "SELECT * FROM usuarios WHERE correo = ?",
+    const { rows } = await pool.query(
+      "SELECT * FROM usuarios WHERE correo = $1",
       [correo]
     )
 
-    if (findUser.length > 0) return res.status(400).json({
-      message: "Este 'Email' y/o el 'Nombre usuario' ya está en uso."
+    console.log(rows);
+
+    if (rows.length > 0) return res.status(400).json({
+      message: "Este 'Email' ya está en uso."
     })
+
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+
+  try {
 
     const passwordHash = await bcrypt.hash(contrasenia, 15)
 
-    const [result] = await pool.query(
-      "insert into usuarios (nombre_completo, telefono, cedula, rol, correo, contrasenia) values (?,?,?,?,?,?)",
+    const { rows } = await pool.query(
+      "INSERT INTO usuarios (nombre_completo, telefono, cedula, rol, correo, contrasenia) VALUES ($1,$2,$3,$4,$5,$6) RETURNING uuid",
       [nombre_completo, telefono, cedula, rol, correo, passwordHash]
     )
 
-    console.log(result);
-
-    const token = await createAccessToken({id: result.insertId})
+    const token = await createAccessToken({id: rows[0].uuid})
     res.cookie('token', token)
 
     res.json({
@@ -41,6 +45,34 @@ export const registerUser = async (req, res) => {
       correo: correo
     })
 
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}
+
+export const login = async (req, res) => {
+  const { correo, contrasenia } = req.body
+
+  try {
+
+    const { rows } = await pool.query(
+      "SELECT * FROM usuarios WHERE correo = $1",
+      [correo]
+    )
+
+    const isMatch = await bcrypt.compare(contrasenia, rows[0].contrasenia)
+    if (!isMatch) return res.status(400).json({ message: "Credenciales incorrectas." })
+
+    const token = await createAccessToken({ id: rows[0].uuid })
+
+    res.cookie('token', token)
+    res.json({
+      id: rows.uuid,
+      username: rows.nombre_completo,
+      email: rows.correo
+    })
+
+      
   } catch (error) {
     res.status(500).json({ message: error.message })
   }
@@ -66,6 +98,38 @@ export const logout = async (req, res) => {
   }
 }
 
-export const verifyToken = async (req, res) => {}
+export const verifyToken = async (req, res) => {
+  const { token } = req.cookies;
+
+  console.log(token, '-------------------------');
+
+  if (!token) return res.status(401).json({ message: "Sin autorización."})
+
+  jwt.verify(token, process.env.TOKEN_SECRET, async (error, user) => {
+    console.log(user, 'User aaaaaaaaaaaaaaaaa');
+    console.log(user.id, 'User id');
+
+    if (error) return res.status(401).json({ message: "Sin autorización." })
+
+    const { rows } = await pool.query(
+      "SELECT * FROM usuarios WHERE uuid = $1",
+      [user.id]
+    )
+
+    console.log(rows);
+
+    if (!rows || rows.length === 0) return res.status(401).json({ message: "Sin autorización." })
+
+    console.log('object');
+
+
+    return res.json({
+      uuid: rows.uuid,
+      nombre_completo: rows.nombre_completo,
+      correo: rows.correo,
+    });
+
+  });
+}
 
 
