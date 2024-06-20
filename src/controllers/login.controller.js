@@ -15,8 +15,6 @@ export const registerUser = async (req, res) => {
       [correo]
     )
 
-    console.log(rows);
-
     if (rows.length > 0) return res.status(400).json({
       message: "Este 'Email' ya está en uso."
     })
@@ -33,9 +31,6 @@ export const registerUser = async (req, res) => {
       "INSERT INTO usuarios (nombre_completo, telefono, cedula, rol, correo, contrasenia) VALUES ($1,$2,$3,$4,$5,$6) RETURNING uuid",
       [nombre_completo, telefono, cedula, rol, correo, passwordHash]
     )
-
-    const token = await createAccessToken({id: rows[0].uuid})
-    res.cookie('token', token)
 
     res.json({
       nombre_completo: nombre_completo,
@@ -60,16 +55,19 @@ export const login = async (req, res) => {
       [correo]
     )
 
+    if (rows.length === 0) return res.status(400).json({ message: 'El correo y/o contraseña no son correctas.' })
+
     const isMatch = await bcrypt.compare(contrasenia, rows[0].contrasenia)
     if (!isMatch) return res.status(400).json({ message: "Credenciales incorrectas." })
 
     const token = await createAccessToken({ id: rows[0].uuid })
 
+
     res.cookie('token', token)
-    res.json({
-      id: rows.uuid,
-      username: rows.nombre_completo,
-      email: rows.correo
+    res.status(200).json({
+      id: rows[0].uuid,
+      username: rows[0].nombre_completo,
+      email: rows[0].correo
     })
 
       
@@ -78,12 +76,47 @@ export const login = async (req, res) => {
   }
 }
 
-export const updateUser = async (req, res) => {}
+export const updateUser = async (req, res) => {
+  const { nombre_completo, telefono, cedula, rol, correo, contrasenia, estado } = req.body
 
-export const updateEstadoUser = async (req, res) => {}
+  try {
+    const { rows } = await pool.query(
+      "SELECT * FROM usuarios WHERE uuid = $1",
+      [req.params.uuid]
+    )
 
-export const listUser = async (req, res) => {}
+    if (rows.length === 0) return res.status(400).json({ message: "Este usuario no existe." })
 
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+
+  try {
+
+    const { rows } = await pool.query(
+      "UPDATE usuarios SET nombre_completo = $1, telefono = $2, cedula = $3, rol = $4, correo = $5, contrasenia = $6, estado = $7 WHERE uuid = $8",
+      [nombre_completo, telefono, cedula, rol, correo, contrasenia, estado, req.params.uuid]
+    )
+
+    res.json({ message: "Tarea actualizada." })
+    
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}
+
+
+export const listUser = async (req, res) => {
+  try {
+    
+    const { rows } = await pool.query("SELECT * FROM usuarios")
+
+    res.json(rows)
+
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}
 
 export const logout = async (req, res) => {
   try {
@@ -101,13 +134,9 @@ export const logout = async (req, res) => {
 export const verifyToken = async (req, res) => {
   const { token } = req.cookies;
 
-  console.log(token, '-------------------------');
-
   if (!token) return res.status(401).json({ message: "Sin autorización."})
 
   jwt.verify(token, process.env.TOKEN_SECRET, async (error, user) => {
-    console.log(user, 'User aaaaaaaaaaaaaaaaa');
-    console.log(user.id, 'User id');
 
     if (error) return res.status(401).json({ message: "Sin autorización." })
 
@@ -116,17 +145,12 @@ export const verifyToken = async (req, res) => {
       [user.id]
     )
 
-    console.log(rows);
-
     if (!rows || rows.length === 0) return res.status(401).json({ message: "Sin autorización." })
 
-    console.log('object');
-
-
     return res.json({
-      uuid: rows.uuid,
-      nombre_completo: rows.nombre_completo,
-      correo: rows.correo,
+      uuid: rows[0].uuid,
+      nombre_completo: rows[0].nombre_completo,
+      correo: rows[0].correo,
     });
 
   });
