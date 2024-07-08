@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  postgresdb:
+    container_name: postgresdb
+    image: postgres
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      - POSTGRES_USER=$USER_DATABASE
+      - POSTGRES_PASSWORD=$PASSWORD_DATABASE
+      - POSTGRES_DB=$DATABASE_NAME
+    ports:
+      - $POSTGRESDB_LOCAL_PORT:$POSTGRESDB_DOCKER_PORT
+    volumes:
+      - postgresdb:/var/lib/postgres
+  app:
+    container_name: app
+    depends_on:
+      - postgresdb
+    env_file: ./.env
+    build: .
+    ports:
+      - 3000:3000
+    environment:
+      - DB_HOST=$HOST_DATABASE
+      - DB_USER=$USER_DATABASE
+      - DB_PASSWORD=$PASSWORD_DATABASE
+      - DB_NAME=$DATABASE_NAME
+      - DB_PORT=$PORT_DATABASE
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./:/app 
+
+  client:
+    container_name: client
+    env_file: ./.env
+    depends_on:
+      - app
+    restart: unless-stopped
+    build: client
+    ports:
+      - $CLIENT_PORT_1:$CLIENT_PORT_2
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./client:/app
+
+volumes: 
+  postgresdb:
