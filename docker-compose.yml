@@ -14,6 +14,10 @@ services:
       - $POSTGRESDB_LOCAL_PORT:$POSTGRESDB_DOCKER_PORT
     volumes:
       - postgresdb:/var/lib/postgres
+      - ./database/:/docker-entrypoint-initdb.d/
+    logging:
+      driver: none
+
   app:
     container_name: app
     depends_on:

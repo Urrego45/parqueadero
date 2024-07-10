@@ -46,6 +46,7 @@ export const registerUser = async (req, res) => {
 }
 
 export const login = async (req, res) => {
+  console.log(req.body);
   const { correo, contrasenia } = req.body
 
   try {
@@ -54,6 +55,8 @@ export const login = async (req, res) => {
       "SELECT * FROM usuarios WHERE correo = $1",
       [correo]
     )
+
+    console.log(rows);
 
     if (rows.length === 0) return res.status(400).json({ message: 'El correo y/o contraseña no son correctas.' })
 
@@ -72,6 +75,7 @@ export const login = async (req, res) => {
 
       
   } catch (error) {
+    console.log(error, '------------------------')
     res.status(500).json({ message: error.message })
   }
 }

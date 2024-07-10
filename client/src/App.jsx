@@ -17,11 +17,14 @@ function App() {
       <BrowserRouter>
 
         <main className='container mx-auto px-10'>
-          {/* <Navbar /> */}
+
           <Routes>
             <Route path='/' element={<LoginPage />} />
 
             <Route element={<ProtectedRoute />}>
+
+              
+
               <Route path='/home' element={<HomePage />} />
 
             </Route>
