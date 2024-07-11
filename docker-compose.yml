@@ -13,7 +13,7 @@ services:
     ports:
       - $POSTGRESDB_LOCAL_PORT:$POSTGRESDB_DOCKER_PORT
     volumes:
-      - postgresdb:/var/lib/postgres
+      - postgresdb:/var/lib/postgresql/data
       - ./database/:/docker-entrypoint-initdb.d/
     logging:
       driver: none
