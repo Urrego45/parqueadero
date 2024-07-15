@@ -6,6 +6,8 @@ import HomePage from './pages/HomePage';
 import UserPage from './pages/Users/UserPage';
 
 import ProtectedRoute from './ProtectedRoute'
+
+import { UserProvider } from './context/UserContext';
 import { Navbar } from "./components/Navbar";
 
 
@@ -14,32 +16,33 @@ function App() {
   return (
     <AuthProvider>
 
+      <UserProvider>
+        <BrowserRouter>
 
-      <BrowserRouter>
+          <main className='container mx-auto px-10'>
 
-        <main className='container mx-auto px-10'>
+            <Navbar />
 
-          <Navbar />
+            <Routes>
+              <Route path='/' element={<LoginPage />} />
 
-          <Routes>
-            <Route path='/' element={<LoginPage />} />
+              <Route element={<ProtectedRoute />}>
 
-            <Route element={<ProtectedRoute />}>
+                
+                <Route path='/home' element={<HomePage />} />
+                <Route path='/users' element={<UserPage />} />
 
-              
+              </Route>
 
-              <Route path='/home' element={<HomePage />} />
-              <Route path='/users' element={<UserPage />} />
-
-            </Route>
-
-          </Routes>
-
+            </Routes>
 
 
-        </main>
 
-      </BrowserRouter>
+          </main>
+
+        </BrowserRouter>
+      </UserProvider>
+
     </AuthProvider>
 
   )
