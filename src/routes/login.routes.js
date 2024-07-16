@@ -10,10 +10,10 @@ import * as userSchemas from '../schemas/login.schema.js';
 const router = express.Router()
 
 
-router.get('/usuarios', authRequired, usersControllers.listUser)
-router.put('/usuarios/:uuid', authRequired, validateSchema(userSchemas.updateUser), usersControllers.updateUser)
+router.get('/user', authRequired, usersControllers.listUser)
+router.put('/user/:uuid', authRequired, validateSchema(userSchemas.updateUser), usersControllers.updateUser)
 
-router.post('/usuarios', authRequired, validateSchema(userSchemas.registerSchema), usersControllers.registerUser)
+router.post('/user', authRequired, validateSchema(userSchemas.registerSchema), usersControllers.registerUser)
 
 router.get('/verify', usersControllers.verifyToken)
 router.get('/logout',  usersControllers.logout)
@@ -21,10 +21,4 @@ router.get('/logout',  usersControllers.logout)
 router.post('/login', validateSchema(userSchemas.loginSchema), usersControllers.login)
 
 
-
-// router.post('/login', )
-// router.post('/register', )
-
-
 export default router
-

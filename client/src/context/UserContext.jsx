@@ -24,6 +24,7 @@ export function UserProvider({ children }) {
   const getUsers = async () => {
     try {
       const res = await userApi.getUserstRequest()
+      console.log(res.data);
       setUsers(res.data)
     } catch (error) {
       console.log(error);
