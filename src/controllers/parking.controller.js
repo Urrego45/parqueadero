@@ -15,7 +15,20 @@ export const getParking = async (req, res) => {
 }
 
 export const createParking = async (req, res) => {
+  const { empresa, nombre, direccion, telefono } = req.body
   try {
+
+    const { rows } = await pool.query(
+      "INSERT INTO parqueaderos (empresa, nombre, direccion, telefono) VALUES ($1, $2, $3, $4)",
+      [empresa, nombre, direccion, telefono]
+    )
+
+    res.json({
+      nombre: nombre,
+      direccion: direccion,
+      telefono: telefono
+    })
+    
     
   } catch (error) {
     res.status(500).json({ message: error.message })
@@ -23,7 +36,16 @@ export const createParking = async (req, res) => {
 }
 
 export const updateParking = async (req, res) => {
+  const { empresa, nombre, direccion, telefono } = req.body
+
   try {
+
+    await pool.query(
+      "UPDATE parqueaderos SET nombre = $1, direccion = $2, telefono = $3 WHERE uuid = $4 ",
+      [nombre, direccion, telefono, req.params.uuid]
+    )
+
+    res.json({ message: "Parqueadero actualizado." })
     
   } catch (error) {
     res.status(500).json({ message: error.message })

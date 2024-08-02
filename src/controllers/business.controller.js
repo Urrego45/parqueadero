@@ -60,7 +60,7 @@ export const updateBusiness = async (req, res) => {
 
   try {
 
-    const { rows } = pool.query(
+    pool.query(
       "UPDATE empresas SET nombre = $1, direccion = $2, telefono = $3 WHERE uuid = $4",
       [nombre, direccion, telefono, req.params.uuid]
     )
