@@ -7,7 +7,7 @@ export const registerSchema = z.object({
     required_error: 'El "Nombre" es requerido.',
     invalid_type_error: 'El "Nombre" debe de ser un texto.',
   }).max(60, {
-    message: 'El nombre nom puede pasar de 60 caracteres.'
+    message: 'El nombre no puede pasar de 60 caracteres.'
   }).min(1, {
     message: msgMin
   }),
@@ -32,7 +32,7 @@ export const registerSchema = z.object({
 
   rol: z.number({
     required_error: 'El "Rol" es requerido.',
-    invalid_type_error: 'El "Rol" debe de ser un texto.',
+    invalid_type_error: 'El "Rol" debe de ser un numero.',
   }),
 
   correo: z.string({
