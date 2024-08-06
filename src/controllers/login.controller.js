@@ -65,8 +65,10 @@ export const login = async (req, res) => {
 
     const token = await createAccessToken({ id: rows[0].uuid })
 
-
+    console.log(token, '-------------------');
     res.cookie('token', token)
+
+    
     res.status(200).json({
       id: rows[0].uuid,
       username: rows[0].nombre_completo,
@@ -137,6 +139,8 @@ export const logout = async (req, res) => {
 
 export const verifyToken = async (req, res) => {
   const { token } = req.cookies;
+
+  console.log(token);
 
   if (!token) return res.status(401).json({ message: "Sin autorización."})
 
