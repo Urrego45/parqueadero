@@ -34,14 +34,18 @@ export const getBusiness = async (req, res) => {
 export const createBusiness = async (req, res) => {
   const { nombre, direccion, telefono } = req.body
 
+  console.log(req.body);
+
   try {
 
-    const { rows } = pool.query(
-      "insert into empresas (nombre, direccion, telefono) values ($1, $2, $3)"
+    console.log(nombre, direccion, telefono);
+
+    const rows  = await pool.query(
+      "INSERT INTO empresas (nombre, direccion, telefono) VALUES ($1, $2, $3)",
       [nombre, direccion, telefono]
     )
 
-    console.log(rows);
+    console.log(rows, '-----------------------');
 
     res.json({
       nombre: nombre,
@@ -51,6 +55,7 @@ export const createBusiness = async (req, res) => {
 
     
   } catch (error) {
+    console.log(error);
     res.status(500).json({ messsage: error.messsage })
   }
 }

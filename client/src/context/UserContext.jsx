@@ -33,9 +33,10 @@ export function UserProvider({ children }) {
 
   const createUser = async (user) => {
     try {
-      await userApi.createUsertRequest(user)
+      const a = await userApi.createUsertRequest(user)
+      console.log(a);
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data), 'error';
     }
   }
 

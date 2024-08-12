@@ -5,10 +5,11 @@ import { createAccessToken } from '../libs/jwt.js'
 import { pool } from '../db.js';
 
 
-
 export const registerUser = async (req, res) => {
   const { nombre_completo, telefono, cedula, rol, correo, contrasenia } = req.body
 
+
+  console.log(req.body);
   try {
     const { rows } = await pool.query(
       "SELECT * FROM usuarios WHERE correo = $1",
