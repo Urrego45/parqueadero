@@ -57,11 +57,15 @@ export const login = async (req, res) => {
       [correo]
     )
 
-    console.log(rows);
+    console.log(rows, 'aaaaaaaaaaaaaaaaaa');
 
     if (rows.length === 0) return res.status(400).json({ message: 'El correo y/o contraseña no son correctas.' })
-
+    
+    console.log('eeeeeeeeeeeeeeeeeeeeee')
     const isMatch = await bcrypt.compare(contrasenia, rows[0].contrasenia)
+
+    console.log(isMatch)
+
     if (!isMatch) return res.status(400).json({ message: "Credenciales incorrectas." })
 
     const token = await createAccessToken({ id: rows[0].uuid })
@@ -84,7 +88,7 @@ export const login = async (req, res) => {
 }
 
 export const updateUser = async (req, res) => {
-  const { nombre_completo, telefono, cedula, rol, correo, contrasenia, estado } = req.body
+  const { nombre_completo, telefono, cedula, rol, correo } = req.body
 
   try {
     const { rows } = await pool.query(
@@ -101,11 +105,11 @@ export const updateUser = async (req, res) => {
   try {
 
     const { rows } = await pool.query(
-      "UPDATE usuarios SET nombre_completo = $1, telefono = $2, cedula = $3, rol = $4, correo = $5, contrasenia = $6, estado = $7 WHERE uuid = $8",
-      [nombre_completo, telefono, cedula, rol, correo, contrasenia, estado, req.params.uuid]
+      "UPDATE usuarios SET nombre_completo = $1, telefono = $2, cedula = $3, rol = $4, correo = $5 WHERE uuid = $6",
+      [nombre_completo, telefono, cedula, rol, correo, req.params.uuid]
     )
 
-    res.json({ message: "Tarea actualizada." })
+    res.json({ message: "Usuario actualizada." })
     
   } catch (error) {
     res.status(500).json({ message: error.message })
@@ -113,10 +117,22 @@ export const updateUser = async (req, res) => {
 }
 
 
-export const listUser = async (req, res) => {
+export const listUsers = async (req, res) => {
   try {
     
     const { rows } = await pool.query("SELECT * FROM usuarios")
+
+    res.json(rows)
+
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}
+
+export const listUser = async (req, res) => {
+  try {
+    
+    const { rows } = await pool.query("SELECT * FROM usuarios WHERE uuid = $1", [req.params.uuid])
 
     res.json(rows)
 
@@ -141,7 +157,7 @@ export const logout = async (req, res) => {
 export const verifyToken = async (req, res) => {
   const { token } = req.cookies;
 
-  console.log(token);
+  console.log(token, '-----------------------------');
 
   if (!token) return res.status(401).json({ message: "Sin autorización."})
 

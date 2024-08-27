@@ -3,13 +3,14 @@ import { Button, Checkbox, Label, TextInput, Modal, Select } from "flowbite-reac
 import { useForm } from 'react-hook-form';
 import { useUser } from '../../context/UserContext';
 import { useNavigate, } from 'react-router-dom';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { roles } from '../../constants/User';
 
 export function UserFormModal(props) {
-  const { register, handleSubmit, formState: { errors } } = useForm()
-  const { createUser, updateUser, getUser } = useUser()
+  const { register, handleSubmit, setValue } = useForm()
+  const { createUser, updateUser, getUser, getUsers } = useUser()
+  const [reload, setReload] = useState(false);
   const navigate = useNavigate()
 
   
@@ -18,28 +19,36 @@ export function UserFormModal(props) {
     async function loadUser () {
       if (props.uuid) {
         const user = await getUser(props.uuid)
+        console.log(user)
+
+        setValue('nombre_completo', user[0].nombre_completo)
+        setValue('correo', user[0].correo)
+        setValue('telefono', user[0].telefono)
+        setValue('cedula', user[0].cedula)
+        setValue('rol', user[0].rol)
       }
     }
     loadUser()
   }), [])
 
+  useEffect((() => {
+    console.log('first')
+    getUsers()
+  }), [reload])
+
   const onSubmit = handleSubmit( async (data) => {
     console.log(data);
     if (props.uuid) {
+      console.log('actualizar')
       await updateUser(props.uuid, data)
     } else {
       await createUser(data)
     }
 
-    navigate('/users')
+    window.location.replace('/users');
+    // setReload(true)
+    // navigate('/users')
   })
-
-  // 
-  // 
-  // 
-  // 
-  // 
-  // 
 
   return (
     <>
@@ -68,19 +77,6 @@ export function UserFormModal(props) {
             <div className="">
               <Label htmlFor="cel" value="Cédula" />
               <TextInput {... register('cedula')} id="cel" type="text" required shadow />
-            </div>
-          </div>
-
-
-          <div className="grid grid-flow-col justify-stretch space-x-4">
-            <div className="block">
-              <Label htmlFor="password" value="Contraseña" />
-              <TextInput {... register('contrasenia')} id="password" type="password" required shadow />
-            </div>
-
-            <div className="block">
-              <Label htmlFor="repeat-password" value="Repetir contraseña" />
-              <TextInput id="repeat-password" type="password" required shadow />
             </div>
           </div>
 

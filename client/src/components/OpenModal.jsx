@@ -10,7 +10,7 @@ export function OpenModal(props) {
   return (
     <>
     <div className="flex flex-wrap gap-4">
-      <Button onClick={() => setOpen(true)}>Crear {props.form}</Button>
+      <Button onClick={() => setOpen(true)}>{props.action} {props.form}</Button>
     </div>
 
     <Modal
@@ -18,7 +18,7 @@ export function OpenModal(props) {
       position={'center'}
       onClose={() => setOpen(false)}
     >
-      {props.form === 'user' ? <UserFormModal /> : null}
+      {props.form === 'usuario' ? <UserFormModal uuid={props.uuid} /> : null}
 
     </Modal>
     

@@ -18,7 +18,9 @@ const app = express()
 
 
 app.use(cors({
-    origin: process.env.ROUTE_CORS,
+    // origin: process.env.ROUTE_CORS,
+    // origin: 'http://172.18.0.4:5173/',
+    origin: true,
     credentials: true
 }))
 app.use(morgan('dev'))

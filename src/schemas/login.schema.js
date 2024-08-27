@@ -30,7 +30,7 @@ export const registerSchema = z.object({
     message: msgMin
   }),
 
-  rol: z.number({
+  rol: z.string({
     required_error: 'El "Rol" es requerido.',
     invalid_type_error: 'El "Rol" debe de ser un numero.',
   }),
@@ -83,7 +83,7 @@ export const updateUser = z.object({
     message: msgMin
   }),
 
-  rol: z.number({
+  rol: z.string({
     required_error: 'El "Rol" es requerido.',
     invalid_type_error: 'El "Rol" debe de ser un texto.',
   }),
@@ -95,21 +95,7 @@ export const updateUser = z.object({
     message: 'El correo electronico solo puede tener 40 caracteres.'
   }).min(1, {
     message: msgMin
-  }),
-
-  contrasenia: z.string({
-    required_error: 'La "Contraseña" es requerido.',
-    invalid_type_error: 'La "Contraseña" debe puede ser texto, números y simbolos.',
-  }).max(16, {
-    message: 'La contraseña puede tener como maximo 16 caracteres.'
-  }).min(8, {
-    message: 'La contraseña puede tener como minimo 8 caracteres.'
-  }),
-
-  estado: z.number({
-    required_error: 'El "Rol" es requerido.',
-    invalid_type_error: 'El "Rol" debe de ser un texto.',
-  }),
+  })
 
 })
 
