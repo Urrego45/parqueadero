@@ -8,7 +8,6 @@ export default function UserPage() {
 
   useEffect(() => {
     getUsers()
-    console.log(users, '.............................');
   }, [])
 
   if (users.length === 0) return (<h1>Sin usuarios</h1>)

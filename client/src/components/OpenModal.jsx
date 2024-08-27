@@ -1,7 +1,7 @@
 import { Button, Modal } from "flowbite-react";
 import { useState } from "react";
 
-import { UserModal } from './Modals/UserFormModal';
+import { UserFormModal } from './Modals/UserFormModal';
 
 
 export function OpenModal(props) {
@@ -18,7 +18,7 @@ export function OpenModal(props) {
       position={'center'}
       onClose={() => setOpen(false)}
     >
-      {props.form === 'user' ? <UserModal /> : null}
+      {props.form === 'user' ? <UserFormModal /> : null}
 
     </Modal>
     

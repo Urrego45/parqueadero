@@ -5,6 +5,7 @@ export const authRequired = (req, res, next) => {
     const { token } = req.cookies
 
     if (!token) {
+        console.log('aaaaaaaaaaaaaaaaa')
         return res.status(401).json({ message: "Acceso denegado sin el 'Token'." })
     }
 

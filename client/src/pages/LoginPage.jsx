@@ -3,6 +3,8 @@ import { useAuth } from '../context/AuthContext';
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
 
+import { OpenModal } from '../components/OpenModal'; // borrar luego
+
 export default function LoginPage() {
   const { register, handleSubmit, formState: { errors } } = useForm()
   const { signin, errors: signinErrors, isAuthenticated } = useAuth()
@@ -32,6 +34,8 @@ export default function LoginPage() {
       </div>
       <div className="flex w-full lg:w-1/2 justify-center items-center bg-white space-y-8">
         <div className="w-full px-8 md:px-32 lg:px-24">
+
+        <OpenModal form="user" /> {/* Borrar luego */}
 
           <form className="bg-white rounded-md shadow-2xl p-5" onSubmit={onSubmit}>
 

@@ -1,0 +1,75 @@
+CREATE TABLE public.empresas (
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    nombre character varying(30),
+    direccion character varying(50),
+    telefono character varying(15)
+);
+
+CREATE TABLE public.parametrizacion_vehiculo (
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    parqueadero uuid,
+    tipo_vehiculo smallint,
+    cupos smallint
+);
+
+CREATE TABLE public.parqueaderos (
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    empresa uuid,
+    nombre character varying(30),
+    direccion character varying(50),
+    telefono character varying(15)
+);
+
+CREATE TABLE public.parqueaderos_usuarios (
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    parqueadero uuid,
+    usuario uuid,
+    fecha_inicio timestamp without time zone,
+    fecha_final timestamp without time zone
+);
+
+CREATE TABLE public.precios (
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    tipo_vehiculo smallint,
+    hora_inicial timestamp without time zone,
+    precio_hora_inicial double precision,
+    hora_siguiente timestamp without time zone,
+    precio_hora_siguiente double precision
+);
+
+CREATE TABLE public.usuarios (
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    nombre_completo character varying(60),
+    telefono character varying(15),
+    cedula character varying(12),
+    rol character varying(1),
+    correo character varying(40),
+    contrasenia character varying(60)
+);
+
+CREATE TABLE public.vehiculos_parqueados (
+    uuid uuid DEFAULT gen_random_uuid() NOT NULL,
+    parqueadero uuid,
+    tipo_vehiculo smallint,
+    placa character varying(6),
+    fecha_ingreso timestamp without time zone,
+    fecha_salida timestamp without time zone
+);
+
+
+insert into usuarios (
+    nombre_completo,
+    telefono,
+    cedula,
+    rol,
+    correo,
+    contrasenia
+)
+VALUES (
+    'santiago',
+    '30145639648',
+    '1001',
+    0,
+    'sa@gmail.com',
+    5862723
+)
