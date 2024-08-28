@@ -1,7 +1,9 @@
 import axios from './axios';
 
 
-export const getParkingRequest = async () => axios.get("/parking")
+export const getParkingsRequest = async () => axios.get("/parking")
+
+export const getParkingRequest = async (uuid) => axios.get(`/parking/${uuid}`)
 
 export const createParkingRequest = async (parking) => axios.post("/parking", parking)
 

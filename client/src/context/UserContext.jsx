@@ -10,7 +10,7 @@ export const useUser = () => {
   const context = useContext(UserContext)
 
   if (!context) {
-    throw new Error("a")
+    throw new Error("useUser must be used within an AuthProvider")
   }
   return context
 }
@@ -51,7 +51,7 @@ export function UserProvider({ children }) {
   const deleteUser = async (uuid) => {
     try {
       const res = await userApi.deleteUsertRequest(uuid)
-      if (res.status === 204) setUsers(users.filter((task) => task.uuid !== uuid))
+      if (res.status === 204) setUsers(users.filter((user) => user.uuid !== uuid))
     } catch (error) {
       console.log(error);
     }

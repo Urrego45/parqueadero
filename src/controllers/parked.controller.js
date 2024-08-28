@@ -2,10 +2,22 @@ import { pool } from '../db.js';
 
 
 
-export const getParked = async (req, res) => {
+export const getParkeds = async (req, res) => {
   try {
 
     const { rows } = await pool.query("select * from vehiculos_parqueados")
+
+    res.json(rows)
+    
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}
+
+export const getParked = async (req, res) => {
+  try {
+
+    const { rows } = await pool.query("select * from vehiculos_parqueados WHERE uuid = $1", [req.params.uuid])
 
     res.json(rows)
     

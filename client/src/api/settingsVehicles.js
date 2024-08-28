@@ -1,7 +1,9 @@
 import axios from './axios';
 
 
-export const getSettingsVehiculeRequest = async () => axios.get("/setting-vehicule")
+export const getSettingVehiculeRequest = async () => axios.get("/setting-vehicule")
+
+export const getSettingsVehiculeRequest = async () => axios.get(`/setting-vehicule/${uuid}`)
 
 export const createSettingsVehiculeRequest = async (setting) => axios.post("/setting-vehicule", setting)
 

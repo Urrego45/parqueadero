@@ -10,7 +10,8 @@ import * as parkedSchemas from '../schemas/parked.schema.js';
 const router = express.Router()
 
 
-router.get('/parked', authRequired, parkedController.getParked)
+router.get('/parked', authRequired, parkedController.getParkeds)
+router.get('/parked/:uuid', authRequired, parkedController.getParked)
 router.post('/parked', authRequired, validateSchema(parkedSchemas.createParkedSchema), parkedController.createParked)
 router.put('/parked/:uuid', authRequired, validateSchema(parkedSchemas.updateParkedSchema), parkedController.updateParked)
 router.delete('/parked/:uuid', authRequired, parkedController.deleteParked)
