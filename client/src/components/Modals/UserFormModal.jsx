@@ -2,17 +2,13 @@ import { Button, Checkbox, Label, TextInput, Modal, Select } from "flowbite-reac
 
 import { useForm } from 'react-hook-form';
 import { useUser } from '../../context/UserContext';
-import { useNavigate, } from 'react-router-dom';
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { roles } from '../../constants/User';
 
 export function UserFormModal(props) {
   const { register, handleSubmit, setValue } = useForm()
   const { createUser, updateUser, getUser, getUsers } = useUser()
-  const [reload, setReload] = useState(false);
-  const navigate = useNavigate()
-
   
   useEffect((() => {
 
@@ -31,11 +27,6 @@ export function UserFormModal(props) {
     loadUser()
   }), [])
 
-  useEffect((() => {
-    console.log('first')
-    getUsers()
-  }), [reload])
-
   const onSubmit = handleSubmit( async (data) => {
     console.log(data);
     if (props.uuid) {
@@ -45,9 +36,9 @@ export function UserFormModal(props) {
       await createUser(data)
     }
 
-    window.location.replace('/users');
-    // setReload(true)
-    // navigate('/users')
+    // window.location.replace('/users');
+    // // setReload(true)
+    // // navigate('/users')
   })
 
   return (

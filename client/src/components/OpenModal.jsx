@@ -3,6 +3,12 @@ import { useState } from "react";
 
 import { UserFormModal } from './Modals/UserFormModal';
 
+import { UserFormModal } from './Modals/BusinessFormModal';
+import { UserFormModal } from './Modals/ParkedFormModal';
+import { UserFormModal } from './Modals/ParkingFormModal';
+import { UserFormModal } from './Modals/PriceFormModal';
+import { UserFormModal } from './Modals/SettingsVehicleFormModal';
+
 
 export function OpenModal(props) {
   const [open, setOpen] = useState(false);
