@@ -18,7 +18,7 @@ export default function Parked() {
 
       <div className="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-white dark:bg-gray-900">
 
-        <OpenModal action="Crear" form="negocios" />
+        <OpenModal action="Crear" form="vehiculo parqueado" />
 
         <label htmlFor="table-search" className="sr-only">Search</label>
         <div className="relative">
@@ -32,18 +32,24 @@ export default function Parked() {
         </div>
 
       </div>
-      {/* parqueadero, tipo_vehiculo, placa, fecha_ingreso, fecha_salida */}
+
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
             <th scope="col" className="px-6 py-3">
-              Nombre
+              Parqueadero
             </th>
             <th scope="col" className="px-6 py-3">
-              Dirección
+              Tipo de vehiculo
             </th>
             <th scope="col" className="px-6 py-3">
-              Teléfono
+              Placa
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Fecha de ingreso
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Fecha de salida
             </th>
             <th scope="col" className="px-6 py-3">
               Acciones
@@ -54,19 +60,23 @@ export default function Parked() {
 
           {parkeds.map(parked => (
             <tr key={parked.uuid} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-              <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                <div className="ps-3">
-                  <div className="text-base font-semibold">{parked.nombre}</div>
-                </div>  
-              </th>
               <td className="px-6 py-4">
-                {parked.direccion}
+                {parked.parqueadero}
               </td>
               <td className="px-6 py-4">
-                {parked.telefono}
+                {parked.tipo_vehiculo}
               </td>
               <td className="px-6 py-4">
-                <OpenModal action="Editar" form="negocios" uuid={parked.uuid} />
+                {parked.placa}
+              </td>
+              <td className="px-6 py-4">
+                {parked.fecha_ingreso}
+              </td>
+              <td className="px-6 py-4">
+                {parked.fecha_salida}
+              </td>
+              <td className="px-6 py-4">
+                <OpenModal action="Editar" form="vehiculo parqueado" uuid={parked.uuid} />
               </td>
               <td className="px-6 py-4">
                 <Button onClick={() => deleteParked(parked.uuid)}>Eliminar</Button>

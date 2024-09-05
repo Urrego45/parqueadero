@@ -27,8 +27,8 @@ export function OpenModal(props) {
       {props.form === 'usuario' ? <UserFormModal uuid={props.uuid} /> : null}
 
       {props.form === 'negocios' ? <BusinessFormModal uuid={props.uuid} /> : null}
-      {props.form === 'usuario' ? <ParkedFormModal uuid={props.uuid} /> : null}
-      {props.form === 'usuario' ? <ParkingFormModal uuid={props.uuid} /> : null}
+      {props.form === 'vehiculo parqueado' ? <ParkedFormModal uuid={props.uuid} /> : null}
+      {props.form === 'parqueadero' ? <ParkingFormModal uuid={props.uuid} /> : null}
       {props.form === 'precio' ? <PriceFormModal uuid={props.uuid} /> : null}
       {props.form === 'ajuste vehiculo' ? <SettingsVehicleFormModal uuid={props.uuid} /> : null}
 

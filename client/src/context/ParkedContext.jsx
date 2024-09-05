@@ -16,7 +16,7 @@ export const useParked = () => {
 
 
 export function ParkedProvider({ children }) {
-  const [parkeds, setParkeds] = useState({})
+  const [parkeds, setParkeds] = useState([])
 
   const getParkeds = async () => {
     try {
