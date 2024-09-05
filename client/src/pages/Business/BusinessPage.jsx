@@ -1,10 +1,12 @@
 import { useEffect } from 'react';
+import { Button } from "flowbite-react";
+
 import { useBusiness } from '../../context/BusinessContext';
 
 import { OpenModal } from '../../components/OpenModal';
 
 export default function Business() {
-  const { getBusinesses, businesses } = useBusiness()
+  const { getBusinesses, businesses, deleteBusiness } = useBusiness()
 
   useEffect(() => {
     getBusinesses()
@@ -25,7 +27,7 @@ export default function Business() {
             </svg>
           </div>
 
-          <input type="text" id="table-search-users" className="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for users" />
+          <input type="text" id="table-search-businesses" className="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for users" />
         </div>
 
       </div>
@@ -34,47 +36,41 @@ export default function Business() {
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
             <th scope="col" className="px-6 py-3">
-              Nombre - Correo electronico
+              Nombre
             </th>
             <th scope="col" className="px-6 py-3">
-              Cedula
+              Dirección
             </th>
             <th scope="col" className="px-6 py-3">
-              Rol
+              Teléfono
             </th>
             <th scope="col" className="px-6 py-3">
-              Estado
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Action
+              Acciones
             </th>
           </tr>
         </thead>
         <tbody>
 
-          {users.map(user => (
-            <tr key={user.uuid} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+          {businesses.map(business => (
+            <tr key={business.uuid} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
               <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
                 <div className="ps-3">
-                  <div className="text-base font-semibold">{user.nombre_completo}</div>
-                  <div className="font-normal text-gray-500">{user.correo}</div>
+                  <div className="text-base font-semibold">{business.nombre}</div>
                 </div>  
               </th>
               <td className="px-6 py-4">
-                {user.cedula}
+                {business.direccion}
               </td>
               <td className="px-6 py-4">
-                {user.rol}
+                {business.telefono}
               </td>
               <td className="px-6 py-4">
-                <div className="flex items-center">
-                  <div className="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> {user.estado}
-                </div>
+                <OpenModal action="Editar" form="negocios" uuid={business.uuid} />
               </td>
               <td className="px-6 py-4">
-                <OpenModal action="Editar" form="negocio" uuid={user.uuid} />
+                <Button onClick={() => deleteBusiness(business.uuid)}>Eliminar</Button>
+              </td>
 
-              </td>
             </tr>
               
             ))

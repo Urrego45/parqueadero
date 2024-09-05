@@ -3,10 +3,12 @@ import { createContext, useContext, useState } from 'react'
 import * as businessApi from '../api/business'
 
 
-const BusinessContext = createContext()
+export const BusinessContext = createContext()
 
 export const useBusiness = () => {
+  console.log(BusinessContext)
   const context = useContext(BusinessContext)
+  console.log(context)
 
   if (!context) {
     throw new Error("useBusiness must be used within an AuthProvider")
@@ -76,7 +78,7 @@ export function BusinessProvider({ children }) {
     >
 
       {children}
+
     </BusinessContext.Provider>
   )
-
 }

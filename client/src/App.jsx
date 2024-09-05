@@ -15,6 +15,14 @@ import UserParkingPage from './pages/UserParking/UserParking';
 import ProtectedRoute from './ProtectedRoute'
 
 import { UserProvider } from './context/UserContext';
+
+import { BusinessProvider } from './context/BusinessContext';
+import { ParkedProvider } from './context/ParkedContext';
+import { ParkingProvider } from './context/ParkingContext';
+import { PriceProvider } from './context/PriceContext';
+import { SettingVehicleProvider } from './context/SettingsVehicleContext';
+
+
 import { Navbar } from "./components/Navbar";
 
 
@@ -24,6 +32,12 @@ function App() {
     <AuthProvider>
 
       <UserProvider>
+      <BusinessProvider>
+      <ParkedProvider>
+      <ParkingProvider>
+      <PriceProvider>
+      <SettingVehicleProvider>
+
         <BrowserRouter>
 
           <main className='container mx-auto px-10'>
@@ -55,6 +69,12 @@ function App() {
           </main>
 
         </BrowserRouter>
+
+      </SettingVehicleProvider>
+      </PriceProvider>
+      </ParkingProvider>
+      </ParkedProvider>
+      </BusinessProvider>
       </UserProvider>
 
     </AuthProvider>

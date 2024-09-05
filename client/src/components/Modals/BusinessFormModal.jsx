@@ -15,11 +15,9 @@ export function BusinessFormModal(props) {
         const business = await getBusiness(props.uuid)
         console.log(business)
 
-        setValue('nombre_completo', business[0].nombre_completo)
-        setValue('correo', business[0].correo)
+        setValue('nombre', business[0].nombre)
+        setValue('direccion', business[0].direccion)
         setValue('telefono', business[0].telefono)
-        setValue('cedula', business[0].cedula)
-        setValue('rol', business[0].rol)
       }
     }
     loadBusiness()
@@ -40,11 +38,38 @@ export function BusinessFormModal(props) {
     // // navigate('/users')
   })
 
+  // nombre
+  // direccion
+  // telefono
+
   return (
     <>
       <Modal.Header>Registrar negocios</Modal.Header>
       <Modal.Body>
-        <p>formulario negocios</p>
+        <form onSubmit={onSubmit} className="flex max-w-md flex-col gap-4">
+
+          <div className="grid grid-flow-col justify-stretch space-x-4">
+            <div className="">
+              <Label htmlFor="name" value="Nombre completo" />
+              <TextInput {... register('nombre')} id="name" type="text" required shadow />
+            </div>
+
+            <div className="">
+              <Label htmlFor="address" value="Dirección" />
+              <TextInput {... register('direccion')} id="address" type="text" required shadow />
+            </div>
+          </div>
+
+          <div className="grid grid-flow-col justify-stretch space-x-4">
+            <div>
+              <Label htmlFor="tel" value="Teléfono" />
+              <TextInput {... register('telefono')} id="tel" type="text" required shadow />
+            </div>
+          </div>
+
+          <Button type="submit">Registrar nuevo negocio</Button>
+
+        </form>
       </Modal.Body>
     </>
   )

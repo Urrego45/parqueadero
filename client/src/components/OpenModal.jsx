@@ -3,11 +3,11 @@ import { useState } from "react";
 
 import { UserFormModal } from './Modals/UserFormModal';
 
-import { UserFormModal } from './Modals/BusinessFormModal';
-import { UserFormModal } from './Modals/ParkedFormModal';
-import { UserFormModal } from './Modals/ParkingFormModal';
-import { UserFormModal } from './Modals/PriceFormModal';
-import { UserFormModal } from './Modals/SettingsVehicleFormModal';
+import { BusinessFormModal } from './Modals/BusinessFormModal';
+import { ParkedFormModal } from './Modals/ParkedFormModal';
+import { ParkingFormModal } from './Modals/ParkingFormModal';
+import { PriceFormModal } from './Modals/PriceFormModal';
+import { SettingsVehicleFormModal } from './Modals/SettingsVehicleFormModal';
 
 
 export function OpenModal(props) {
@@ -25,6 +25,12 @@ export function OpenModal(props) {
       onClose={() => setOpen(false)}
     >
       {props.form === 'usuario' ? <UserFormModal uuid={props.uuid} /> : null}
+
+      {props.form === 'negocios' ? <BusinessFormModal uuid={props.uuid} /> : null}
+      {props.form === 'usuario' ? <ParkedFormModal uuid={props.uuid} /> : null}
+      {props.form === 'usuario' ? <ParkingFormModal uuid={props.uuid} /> : null}
+      {props.form === 'precio' ? <PriceFormModal uuid={props.uuid} /> : null}
+      {props.form === 'ajuste vehiculo' ? <SettingsVehicleFormModal uuid={props.uuid} /> : null}
 
     </Modal>
     

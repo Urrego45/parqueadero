@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useSettingsVehicle } from '../../context/SettingsVehicleContext';
 import { useEffect } from "react";
 
-export function BusinessFormModal(props) {
+export function SettingsVehicleFormModal(props) {
   return (
     <>
       <Modal.Header>Registrar settings</Modal.Header>

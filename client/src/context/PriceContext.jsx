@@ -3,8 +3,7 @@ import { createContext, useContext, useState } from 'react';
 import * as priceApi from '../api/price';
 
 
-
-const PriceContext = createContext()
+export const PriceContext = createContext()
 
 export const usePrice = () => {
   const context = useContext(PriceContext)

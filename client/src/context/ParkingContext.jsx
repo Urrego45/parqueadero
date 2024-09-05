@@ -3,7 +3,7 @@ import { createContext, useContext, useState } from 'react';
 import * as parkingApi from '../api/parking';
 
 
-const ParkingContext = createContext()
+export const ParkingContext = createContext()
 
 export const useParking = () => {
   const context = useContext(ParkingContext)

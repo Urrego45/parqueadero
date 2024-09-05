@@ -7,7 +7,9 @@ import * as userApi from '../api/user';
 const UserContext = createContext()
 
 export const useUser = () => {
+  console.log(UserContext, '---------------->>>>')
   const context = useContext(UserContext)
+  console.log(context, 'usando') 
 
   if (!context) {
     throw new Error("useUser must be used within an AuthProvider")

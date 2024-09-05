@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from 'react';
 
 import * as parkedApi from '../api/parked';
 
-const ParkedContext = createContext()
+export const ParkedContext = createContext()
 
 export const useParked = () => {
   const context = useContext(ParkedContext)
@@ -27,9 +27,9 @@ export function ParkedProvider({ children }) {
     }
   }
 
-  const getParked = async () => {
+  const getParked = async (uuid) => {
     try {
-      const res = await parkedApi.getParkedRequest()
+      const res = await parkedApi.getParkedRequest(uuid)
       return res
     } catch (error) {
       console.log(error)

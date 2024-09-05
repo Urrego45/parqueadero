@@ -3,8 +3,7 @@ import { createContext, useContext, useState } from 'react';
 import * as settingsVehicleApi from '../api/settingsVehicles';
 
 
-
-const SettingsVehicleContext = createContext()
+export const SettingsVehicleContext = createContext()
 
 export const useSettingsVehicle = () => {
   const context = useContext(SettingsVehicleContext)
